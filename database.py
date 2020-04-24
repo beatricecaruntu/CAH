@@ -23,7 +23,7 @@ class Database:
     def disconnect(self):
         self._connection.close()
 
-    def create_all():
+    def create_all(self):
         cursor = self._connection.cursor()
         cards = 'CREATE TABLE cards (q_id INTEGER, question STRING);'
         answers = 'CREATE TABLE answers (a_id INTEGER, answer STRING);'
