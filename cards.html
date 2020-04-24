@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+ <html>
+   <head>
+       <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+      <title>Cards Against Humanity</title>
+      <style>
+table {
+  border-collapse: collapse;
+  width: 80%;
+}
+body {
+  background-color: rgba(118, 118, 162, 0.3);
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  font-family: 'Source Code Pro';
+}
+ 
+.error {
+  color: red;
+  font-family: 'Source Code Pro';
+}
+   
+button{
+  background-color: white;
+  border: none;
+  color: black;
+  font-size: 20px;
+  border-radius: 8px;
+  width: 250px;
+  height: 350px;
+  padding: 32px 45px;; 
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;  
+  border: 2px solid black;
+}
+.button:hover {
+  background-color: gray; /* Green */
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  color: white;
+}
+.button:tooltip{
+ background-color: red;       
+}
+.card {
+  background-color: black;
+  border: 2px solid white;
+  color: white;   
+  font-size: 20px;    
+  border-radius: 8px;
+  padding: 32px 45px;; 
+  width: 500px;
+  height: 200px; 
+    
+}
+.btn{
+  background-color: #b3e6ff;
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  font-size: 15px; 
+  color: black;
+  border: 2px solid white;
+  border-radius: 8px;
+  width: 150px;
+  height: 70px;     
+  padding: 20px 5px;;  
+}          
+</style>
+           
+      </head>
+   <body onLoad="document.getElementById('dept').focus(); getResults()">
+       <div class="container-lg bg-dark text-white">
+       <center>  
+           <br>
+       <h1>Machine Learning Against Humanity</h1></center>   
+           <br>
+           
+           <br>
+       </div>
+       <br>
+       <center>
+       
+           <div class="card text-white">
+               <i class='fas fa-dice' style='font-size:36px'></i>
+               
+               <div class="card-body">{{question}}
+                 
+               
+               </div>             
+               
+               </div>
+       </center>
+       <br>
+       <center>
+           <h4>Pick the funniest one:</h4>
+       </center>
+       <br>
+      
+       <div class="container-fluid">
+           <div class="row">
+               <div class="col"></div>
+               <div class="col">
+                   <form action='/' method="post">
+                        <div class="btn-group">
+                            <button class="button is-text redraw-action" name='submit' value='1' data-toggle='tooltip' title='Funniest?'>
+                              {{answer1}}
+                            </button>
+                            <button class="button is-text redraw-action" name='submit' value='2' data-toggle='tooltip' title='Funniest?'>
+                              {{answer2}}
+                            </button>
+                            <button class="button is-text redraw-action" name='submit' value='3' data-toggle='tooltip' title='Funniest?'>
+                              {{answer3}}
+                            </button>
+                            <button class="button is-text redraw-action" name='submit' value='4' data-toggle='tooltip' title='Funniest?'>
+                              {{answer4}}
+                            </button> 
+                       </div>     
+                   </form>
+               </div>
+               <div class="col">
+                   <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                   <a href="{{ url_for('refresh') }}" class="btn btn-info" role="button">REFRESH CARDS <i class="fa fa-magic"></i></a></div>
+           </div>
+         </div>
+           <div class="w3-container w3-light-grey">
+     <center>
+     Created by Beatrice Caruntu :)))
+     </center>
+     </div> 
+   </body>
+ </html>
