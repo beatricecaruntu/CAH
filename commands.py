@@ -1,4 +1,4 @@
-from database import Database as database
+from database import Database 
 
 database = Database()
 database.connect()
