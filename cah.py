@@ -11,7 +11,7 @@ from flask import Flask, request, make_response, redirect, url_for, session
 from flask import render_template
 import os
 import re
-import click 
+
 #-----------------------------------------------------------------------
 
 app = Flask(__name__, template_folder='.')
@@ -64,10 +64,6 @@ def refresh():
     # Redirect to main page
     return redirect(url_for('index'))
 
-@click.command(name='create_tables')
-@with_appcontext
-def create_tables():
-    database.create_all()
 #-----------------------------------------------------------------------
 
 if __name__ == '__main__':
