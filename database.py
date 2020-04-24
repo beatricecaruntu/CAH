@@ -23,6 +23,20 @@ class Database:
     def disconnect(self):
         self._connection.close()
 
+    def create_all():
+        cursor = self._connection.cursor()
+        cards = 'CREATE TABLE cards (q_id INTEGER, question STRING);'
+        answers = 'CREATE TABLE answers (a_id INTEGER, answer STRING);'
+        combinatii = 'CREATE TABLE combinatii (q_id INTEGER, a_id INTEGER, score FLOAT);'
+        cursor.execute(cards)
+        self._connection.commit()
+        cursor.execute(answers)
+        self._connection.commit()
+        cursor.execute(combinatii)
+        self._connection.commit()
+        cursor.close()
+        return
+    
     # Adauga combinatii 
     def combinatii(self, qid, winner, loser1, loser2, loser3):
         arguments = []

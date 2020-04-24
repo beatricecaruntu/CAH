@@ -62,6 +62,11 @@ def refresh():
     session.pop('4', None)
     # Redirect to main page
     return redirect(url_for('index'))
+
+@click.command(name='create_tables')
+@with_appcontext
+def create_tables():
+    database.create_all()
 #-----------------------------------------------------------------------
 
 if __name__ == '__main__':
