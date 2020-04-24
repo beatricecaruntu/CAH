@@ -68,6 +68,8 @@ def refresh():
 @click.command(name='create_tables')
 @with_appcontext
 def create_tables():
+    database = Database()
+    database.connect()
     Database.create_all()
 #-----------------------------------------------------------------------
 
