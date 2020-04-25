@@ -7,6 +7,7 @@
 
 from sys import argv
 from database import Database
+from cards import Card
 from flask import Flask, request, make_response, redirect, url_for, session
 from flask import render_template
 import os
@@ -24,35 +25,37 @@ app.secret_key = "super secret key"
 def index():
     database = Database()
     database.connect()
+    card = Card()
+    card.connect()
     if not session.get('q'): 
-        session['q'] = database.random_q()                  
+        session['q'] = card.random_q()                  
     if not session.get('1'):
-        session['1'] = database.random_a()
+        session['1'] = card.random_a()
     if not session.get('2'):
-        session['2'] = database.random_a()
+        session['2'] = card.random_a()
     if not session.get('3'):
-        session['3'] = database.random_a()
+        session['3'] = card.random_a()
     if not session.get('4'):
-        session['4'] = database.random_a()
+        session['4'] = card.random_a()
         
     q = session['q'][0]
     if request.method == 'POST':         
-        session['q'] = database.random_q()   
+        session['q'] = card.random_q()   
         if request.form['submit']=='1': 
             database.combinatii(qid=q, winner=session['1'][0], loser1=session['2'][0], loser2=session['3'][0], loser3=session['4'][0])
-            session['1'] = database.random_a()
+            session['1'] = card.random_a()
             
         elif request.form['submit']=='2':
             database.combinatii(qid=q, winner=session['2'][0], loser1=session['1'][0], loser2=session['3'][0], loser3=session['4'][0])
-            session['2'] = database.random_a()
+            session['2'] = card.random_a()
             
         elif request.form['submit'] == '3':
             database.combinatii(qid=q, winner=session['3'][0], loser1=session['2'][0], loser2=session['1'][0], loser3=session['4'][0])
-            session['3'] = database.random_a()
+            session['3'] = card.random_a()
             
         elif request.form['submit'] == '4':
             database.combinatii(qid=q, winner=session['4'][0], loser1=session['2'][0], loser2=session['3'][0], loser3=session['1'][0])
-            session['4'] = database.random_a()
+            session['4'] = card.random_a()
             
     return render_template('cards.html', question=session['q'][1], answer1=session['1'][1], answer2=session['2'][1], answer3=session['3'][1], answer4=session['4'][1])
 
@@ -68,8 +71,6 @@ def refresh():
 @click.command(name='create_tables')
 @with_appcontext
 def create_tables():
-    database = Database()
-    database.connect()
     Database.create_all()
 #-----------------------------------------------------------------------
 
