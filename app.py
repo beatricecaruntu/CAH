@@ -69,12 +69,12 @@ def refresh():
     return redirect(url_for('index'))
 
 @click.command(name='create_tables')
-@with_appcontext
-def create_tables():
-    database = Database()
-    database.connect()
-    database.create_tables()
-    database.populate_combinatii()
+with app.app_context():
+    def create_tables():
+        database = Database()
+        database.connect()
+        database.create_tables()
+        database.populate_combinatii()
 #-----------------------------------------------------------------------
 
 if __name__ == '__main__':
