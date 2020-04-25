@@ -71,7 +71,10 @@ def refresh():
 @click.command(name='create_tables')
 @with_appcontext
 def create_tables():
-    Database.create_all()
+    database = Database()
+    database.connect()
+    database.create_tables()
+    database.populate_combinatii()
 #-----------------------------------------------------------------------
 
 if __name__ == '__main__':
