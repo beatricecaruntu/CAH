@@ -26,7 +26,7 @@ class Database:
 #-----------------------------------------------------------------------
     def create_tables(self):
         cursor = self._connection.cursor()
-        combinatii = 'CREATE TABLE [IF NOT EXISTS] combinatii (q_id INTEGER, a_id INTEGER, score FLOAT);'
+        combinatii = 'CREATE TABLE IF NOT EXISTS combinatii (q_id INTEGER, a_id INTEGER, score FLOAT);'
         cursor.execute(combinatii)
         self._connection.commit()
         cursor.close()
