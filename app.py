@@ -19,6 +19,12 @@ from flask.cli import with_appcontext
 app = Flask(__name__, template_folder='.')
 app.secret_key = "super secret key"
 
+with app.app_context():
+    database = Database()
+    database.connect()
+    database.create_tables()
+    database.populate_combinatii()
+
 #-----------------------------------------------------------------------
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/index", methods=['GET', 'POST'])
@@ -68,13 +74,7 @@ def refresh():
     # Redirect to main page
     return redirect(url_for('index'))
 
-@click.command(name='create_tables')
-with app.app_context():
-    def create_tables():
-        database = Database()
-        database.connect()
-        database.create_tables()
-        database.populate_combinatii()
+
 #-----------------------------------------------------------------------
 
 if __name__ == '__main__':
