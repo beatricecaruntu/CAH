@@ -18,7 +18,7 @@ class Database:
         self._connection = None
 
     def connect(self):      
-        DATABASE_NAME = 'DATABASE_URL'
+        DATABASE_NAME = 'HEROKU_POSTGRESQL_AMBER_URL'
         self._connection = connect(DATABASE_NAME)
                     
     def disconnect(self):
