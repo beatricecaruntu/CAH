@@ -18,50 +18,20 @@ class Database:
         self._connection = None
 
     def connect(self):      
-        DATABASE_NAME = 'HEROKU_POSTGRESQL_AMBER_URL'
+        DATABASE_NAME = 'DATABASE_URL'
         self._connection = connect(DATABASE_NAME)
                     
     def disconnect(self):
         self._connection.close()
 #-----------------------------------------------------------------------
-    def create_all(self):
+    def create_tables(self):
         cursor = self._connection.cursor()
-        cards = 'CREATE TABLE cards (q_id INTEGER, question STRING);'
-        answers = 'CREATE TABLE answers (a_id INTEGER, answer STRING);'
         combinatii = 'CREATE TABLE combinatii (q_id INTEGER, a_id INTEGER, score FLOAT);'
-        cursor.execute(cards)
-        self._connection.commit()
-        cursor.execute(answers)
-        self._connection.commit()
         cursor.execute(combinatii)
         self._connection.commit()
         cursor.close()
         return
 #-----------------------------------------------------------------------    
-    # Populate the initial answers table with answers 
-    def populate_answers(self):
-        cursor = self._connection.cursor()
-        qts = pd.read_excel('answrs.xlsx')
-        qts_np = np.array(qts)        
-        comanda = 'INSERT INTO answers (a_id, answer) VALUES (?, ?);'      
-        for i in range(0, 206):
-            cursor.execute(comanda, [i, str((qts_np[i,0])),])
-            self._connection.commit()
-        cursor.close()    
-        return
-    
-    # Populate the initial cards table with questions
-    def populate_cards(self):
-        cursor = self._connection.cursor()
-        qts = pd.read_excel('questions.xlsx')
-        qts_np = np.array(qts)        
-        comanda = 'INSERT INTO cards (q_id, question) VALUES (?, ?);'      
-        for i in range(0, 117):
-            cursor.execute(comanda, [i, str((qts_np[i,0])),])
-            self._connection.commit()
-        cursor.close()    
-        return
-    
     # Populate the initial combinatii table with q_id and a_id pairs
     def populate_combinatii(self):
         cursor = self._connection.cursor()
@@ -90,22 +60,6 @@ class Database:
         self._connection.commit()
         cursor.close()
         return   
-#-----------------------------------------------------------------------    
-    def random_q(self):
-        cursor = self._connection.cursor()
-        comanda = 'SELECT q_id, question FROM cards ORDER BY RANDOM() LIMIT 1;'
-        cursor.execute(comanda)
-        question = cursor.fetchone()
-        return question 
-#-----------------------------------------------------------------------    
-    def random_a(self):
-        cursor = self._connection.cursor()
-        comanda = 'SELECT a_id, answer FROM answers ORDER BY RANDOM() LIMIT 1;'
-        cursor.execute(comanda)
-        question = cursor.fetchone()
-        return question 
-        
-
 #-----------------------------------------------------------------------
 
 # For testing:

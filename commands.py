@@ -2,7 +2,5 @@ from database import Database
 
 database = Database()
 database.connect()
-database.create_all()
-database.populate_cards()
-database.populate_answers()
+database.create_tables()
 database.populate_combinatii()
