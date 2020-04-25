@@ -8,9 +8,10 @@
 from sqlite3 import connect
 from sys import stderr
 from os import path
+import numpy as np
+import pandas as pd
 
 #-----------------------------------------------------------------------
-
 class Database:
     
     def __init__(self):
@@ -22,7 +23,7 @@ class Database:
                     
     def disconnect(self):
         self._connection.close()
-
+#-----------------------------------------------------------------------
     def create_all(self):
         cursor = self._connection.cursor()
         cards = 'CREATE TABLE cards (q_id INTEGER, question STRING);'
@@ -36,7 +37,43 @@ class Database:
         self._connection.commit()
         cursor.close()
         return
+#-----------------------------------------------------------------------    
+    # Populate the initial answers table with answers 
+    def populate_answers(self):
+        cursor = self._connection.cursor()
+        qts = pd.read_excel('answrs.xlsx')
+        qts_np = np.array(qts)        
+        comanda = 'INSERT INTO answers (a_id, answer) VALUES (?, ?);'      
+        for i in range(0, 206):
+            cursor.execute(comanda, [i, str((qts_np[i,0])),])
+            self._connection.commit()
+        cursor.close()    
+        return
     
+    # Populate the initial cards table with questions
+    def populate_cards(self):
+        cursor = self._connection.cursor()
+        qts = pd.read_excel('questions.xlsx')
+        qts_np = np.array(qts)        
+        comanda = 'INSERT INTO cards (q_id, question) VALUES (?, ?);'      
+        for i in range(0, 117):
+            cursor.execute(comanda, [i, str((qts_np[i,0])),])
+            self._connection.commit()
+        cursor.close()    
+        return
+    
+    # Populate the initial combinatii table with q_id and a_id pairs
+    def populate_combinatii(self):
+        cursor = self._connection.cursor()
+     
+        comanda = 'INSERT INTO combinatii (q_id, a_id) VALUES (?, ?);'   
+        for i in range(0, 117):
+            for j in range(0, 206):
+                cursor.execute(comanda, [i, j,])
+                self._connection.commit()
+        cursor.close()    
+        return
+#-----------------------------------------------------------------------    
     # Adauga combinatii 
     def combinatii(self, qid, winner, loser1, loser2, loser3):
         arguments = []
@@ -53,14 +90,14 @@ class Database:
         self._connection.commit()
         cursor.close()
         return   
-    
+#-----------------------------------------------------------------------    
     def random_q(self):
         cursor = self._connection.cursor()
         comanda = 'SELECT q_id, question FROM cards ORDER BY RANDOM() LIMIT 1;'
         cursor.execute(comanda)
         question = cursor.fetchone()
         return question 
-    
+#-----------------------------------------------------------------------    
     def random_a(self):
         cursor = self._connection.cursor()
         comanda = 'SELECT a_id, answer FROM answers ORDER BY RANDOM() LIMIT 1;'
