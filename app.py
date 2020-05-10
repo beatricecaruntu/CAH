@@ -10,20 +10,49 @@ from database import Database
 from cards import Card
 from flask import Flask, request, make_response, redirect, url_for, session
 from flask import render_template
+from flask import g
 import os
 import re
 import click 
 from flask.cli import with_appcontext
+from flask_sqlalchemy import SQLAlchemy
 #-----------------------------------------------------------------------
 
 app = Flask(__name__, template_folder='.')
 app.secret_key = "super secret key"
 
-with app.app_context():
+dev = False
+
+def create_app():
+    app = Flask(__name__,  template_folder='.')
+    app.secret_key = "WEFWEFGEWDNFEJNJK2938Rdnjenfcjv"
+
+    with app.app_context():
+        get_db()
+
+    return app
+
+def connect_to_database():
     database = Database()
     database.connect()
-    database.create_tables()
-    database.populate_combinatii()
+    return database
+
+def get_db():
+    if 'db' not in g:
+        g.db = connect_to_database()
+
+    return g.db
+
+app = create_app()
+
+if dev:
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cards.db'
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://rimxapgmsmovie:0f7e87fc6f146b8af081eb59db366866a99f2dfbbf8e8d5b0fed91b168ef0de7@ec2-34-233-186-251.compute-1.amazonaws.com:5432/dcrl8c4kcd58ol'
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db_sql = SQLAlchemy(app)
 
 #-----------------------------------------------------------------------
 @app.route("/", methods=['GET', 'POST'])
